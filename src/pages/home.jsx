@@ -1,6 +1,10 @@
+import React from "react";
+import { Typography } from "@mui/material";
+
+
 function Home() {
   return ( 
-    <h1>this is home page</h1>
+    <Typography variant="h1">Welcome to the home page</Typography>
    );
 }
 

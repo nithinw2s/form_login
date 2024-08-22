@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {createTheme , ThemeProvider} from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
@@ -6,10 +6,11 @@ import Container from '@mui/material/Container';
 import { Avatar, TextField, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Button from '@mui/material/Button';
-import { Copyright, Password } from '@mui/icons-material';
+import { Copyright } from '@mui/icons-material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { useNavigate } from 'react-router-dom';
+import validateForm from '../utils/validation'
 
 
 
@@ -18,6 +19,7 @@ const defaultTheme = createTheme()
 function Register() {
 
   const navigate = useNavigate()
+  const [errors, setErrors] = useState({});
   const [formdata, setFormdata] =  useState({
     email:"",
     password:""
@@ -33,9 +35,15 @@ function Register() {
   
 
   const handleSubmit = (e) => {
-    localStorage.setItem('email', formdata.email)
-    localStorage.setItem('password', formdata.password);
-    navigate('/login')
+    e.preventDefault();  // Prevent default form submission
+    const validationErrors = validateForm(formdata);
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length === 0) {
+      localStorage.setItem('email', formdata.email);
+      localStorage.setItem('password', formdata.password);
+      navigate('/login');
+    }
   };
   
   return (

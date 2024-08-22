@@ -6,32 +6,40 @@ import Container from '@mui/material/Container';
 import { Avatar, TextField, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Button from '@mui/material/Button';
-import { Copyright, Password } from '@mui/icons-material';
+import { Copyright } from '@mui/icons-material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import { useNavigate } from 'react-router-dom';
+import validateForm from '../utils/validation';
+import { red } from '@mui/material/colors';
 
 
 const defaultTheme = createTheme()   
 function Login() {
 
   const navigate = useNavigate()
+  const [errors, setErrors] = useState({});
+  const [loginerror, setloginerror]=useState("")
   const [formLogindata, setformlogindata ] = useState({
     email:'',
     password:""
   })
   const storedEmail = localStorage.getItem('email');
+    
   const storedPassword = localStorage.getItem('password');
   console.log(storedEmail, storedPassword);
   console.log(formLogindata.email, formLogindata.password[0]);
 
-  const handlevalidation = () => {
-    (storedEmail == formLogindata.email && storedPassword == formLogindata.password) 
-    ? navigate('/home') 
-    : console.log("provide the valid mail and password")
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const validationErrors = validateForm(formLogindata);
+    setErrors(validationErrors);
 
+    (storedEmail == formLogindata.email && storedPassword == formLogindata.password) 
+   ? navigate('/home') 
+    : setloginerror("Invalid Id or Password")
   };
 
 
@@ -64,7 +72,7 @@ function Login() {
           <Typography component='h1' variant='h5' >
            LogIn
           </Typography>
-          <Box component="form" sx={{ mt:1 }} onSubmit={handlevalidation} >
+          <Box component="form" sx={{ mt:1 }} onSubmit={handleSubmit} >
             <TextField
               onChange={handleChange} 
               margin="normal"
@@ -73,6 +81,8 @@ function Login() {
               label='Email Adress'
               name='email'
               autoComplete='email'
+              error={!!errors.email}
+              helperText={errors.email}
               autoFocus></TextField>
             <TextField
               onChange={handleChange}
@@ -81,11 +91,17 @@ function Login() {
               id='password'
               label='Password'
               name='password'
-              autoComplete='current-password' ></TextField>
+              autoComplete='current-password'
+              error={!!errors.password}
+              helperText={errors.password}
+              ></TextField>
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+            <Typography sx={{ color:'red', marginLeft:10 }}>
+              {loginerror}
+            </Typography>
             <Button
             type='submit'
             fullWidth
@@ -94,7 +110,6 @@ function Login() {
             >
               Login
             </Button>
-
             <Grid container>
               <Grid item>
                 <Link href="/" variant="body2">
