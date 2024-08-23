@@ -1,10 +1,13 @@
 import React from "react";
-import { Typography } from "@mui/material";
-
+import ResponsiveAppBar from "../components/navbar";
+import BasicTable from "../components/table";
 
 function Home() {
   return ( 
-    <Typography variant="h1">Welcome to the home page</Typography>
+    <>
+      <ResponsiveAppBar />
+      <BasicTable />
+    </>
    );
 }
 
