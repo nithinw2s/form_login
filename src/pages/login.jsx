@@ -7,8 +7,10 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+// import { useState } from "react";
 
+
+// DataContext = createContext()
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
@@ -22,8 +24,9 @@ const LoginSchema = Yup.object().shape({
 
 const theme = createTheme();
 
-const Gfg = () => {
-  const[data, setdata] = useState([])
+const Login = () => {
+  // const[data, setdata] = useState('')
+
   // const [dataIsLoaded, setDataIsLoaded] = useState(false); 
   // const [error, setError] = useState(null);
 
@@ -68,25 +71,31 @@ const Gfg = () => {
                   expiresInMins: 30, // optional, defaults to 60
                 })
               })
-                .then((res) => {
-                  if(!res.ok){
-                    console.log("not a 2** error");
-                    throw new Error(`HTTP error! status: ${res.status}`);
-          
-                  }if (res.json()) {navigate('/home') }})
-                .then((json) => {
-                  if (json.error) {
-                    setErrors({ email: "Invalid user" });
-                    console.log("its a 2** serise error")
-                  }
-                  setdata(json);
-                  console.log(data)
-                })
-                .catch((error) => {
-                  setErrors({ email: "Invalid user" });
-                  console.error("Error:", error);
-                });
+              .then(res => res.json())
+              .then((jdata)=>{
+                if (jdata.token) {
+                  // Successful login
+                  navigate('/home', { state: { user: jdata } });
+                } else {
+                  // Handle invalid credentials
+                  setErrors({
+                    email: 'Invalid email or password',
+                    password: 'Invalid email or password',
+                  });
+                  console.error('Invalid login credentials: from then part');
+                }
                 setSubmitting(false);
+              })
+              .catch(error => {
+                setErrors({
+                  email: 'Invalid email or password',
+                  password: 'Invalid email or password',
+                });
+                console.error('Login error: from catch', error);
+                setSubmitting(false);
+              });
+              ;
+              
 
             }}
           >
@@ -144,4 +153,4 @@ const Gfg = () => {
   );
 };
 
-export default Gfg;
+export default Login;

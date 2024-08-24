@@ -17,10 +17,18 @@ export default function Table2() {
 //   const [dataIsLoaded, setDataIsLoaded] = useState(false); 
 
   useEffect(() => {
-    axios.get('https://jsonplaceholder.typicode.com/users')
-    .then((res)=>{
-        setdata(res.data);
-    })
+    fetch('https://dummyjson.com/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          
+          username: 'emilys',
+          password: 'emilyspass',
+          expiresInMins: 30, // optional, defaults to 60
+        })
+      })
+      .then(res => res.json())
+      .then(console.log);
 }, []
   );
 
