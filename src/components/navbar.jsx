@@ -12,6 +12,8 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Home from '@mui/icons-material/Home';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { Padding } from '@mui/icons-material';
 
 const pages = [
   { name: 'Products', path: '/products' },
@@ -20,10 +22,11 @@ const pages = [
 ];
 
 function ResponsiveAppBar() {
-
+  const value = useSelector((state)=>state.example.value);
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
+
         <Toolbar disableGutters>
           <Home sx={{ m:1 }}/>
           <Typography
@@ -41,6 +44,7 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
+
           <Button
             key='home'
             component={Link}
@@ -50,34 +54,9 @@ function ResponsiveAppBar() {
               Home
               </Button>
           </Typography>
+          
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <Menu
-              id="menu-appbar"
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page.name}
-                component={Link}
-                to={page.path}
-                >
-                  <Typography textAlign="center">{page.name}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-         
+          
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
@@ -89,10 +68,13 @@ function ResponsiveAppBar() {
                 {page.name}
               </Button>
             ))}
+            
           </Box>
+          <h3>Value: {value}</h3>
 
           <Tooltip title="Open settings">
-              <IconButton sx={{ p: 0 }}>
+          
+              <IconButton sx={{ p:0, ml:2 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>

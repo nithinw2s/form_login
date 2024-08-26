@@ -32,7 +32,7 @@ const BasicTable = ({ userData }) => {
             <TableCell align="center">{userData.firstName}</TableCell>
             <TableCell align="center">{userData.username}</TableCell>
             <TableCell align="center">{userData.email}</TableCell>
-            <TableCell align="center">{userData.city}</TableCell>
+            <TableCell align="center">{userData.lastName}</TableCell>
           </TableRow>
         </TableBody>
       </Table>

@@ -76,14 +76,14 @@ const Login = () => {
                 if (jdata.token) {
                   // Successful login
                   navigate('/home', { state: { user: jdata } });
-                } else {
+                } //else {
                   // Handle invalid credentials
-                  setErrors({
-                    email: 'Invalid email or password',
-                    password: 'Invalid email or password',
-                  });
-                  console.error('Invalid login credentials: from then part');
-                }
+                //   setErrors({
+                //     email: 'Invalid email or password',
+                //     password: 'Invalid email or password',
+                //   });
+                //   console.error('Invalid login credentials: from then part');
+                // }
                 setSubmitting(false);
               })
               .catch(error => {
