@@ -7,17 +7,17 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Typography } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 import { useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
-import AddDetails from '../components/addProduct'
-
+import AddDetails from '../components/addProduct';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { addProduct, editProduct, deleteProduct } from '../redux_slices/productslice';
 
 const BasicTable = () => {
 
-
-
+  const dispatch = useDispatch();
+  const [editingProduct, setEditingProduct] = useState(null);
   const [productList, setProductlist] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const products = useSelector((state) => state.products.items);
@@ -32,16 +32,27 @@ const BasicTable = () => {
   },[products]);
 
   const handleAddProduct = (newProduct) => {
-    const id = productList.length + 1;
-    setProductlist([...productList, { ...newProduct, id }]);
+    dispatch(addProduct(newProduct));
+    console.log("handleaddproduct");
   };
 
-  const handleOpenModal = () => {
+  const handleEditProduct = (updatedProduct) => {
+    dispatch(editProduct({ id: editingProduct.id, updatedProduct }));
+    setEditingProduct(null);
+  };
+
+  const handleDeleteProduct = (id) => {
+    dispatch(deleteProduct(id));
+  };
+
+  const handleOpenModal = (product = null) => {
+    setEditingProduct(product);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setEditingProduct(null);
   };
 
 
@@ -53,7 +64,7 @@ const BasicTable = () => {
     
     <>
     <Typography align='right' m={1}>
-    <Button variant="contained" sx={{ justifyContent: "flex-end" }} color="primary" onClick={handleOpenModal}>
+    <Button variant="contained" sx={{ justifyContent: "flex-end" }} color="primary" onClick={()=>handleOpenModal()}>
         Add Product
       </Button>
     </Typography>
@@ -61,7 +72,8 @@ const BasicTable = () => {
       <AddDetails 
         open={isModalOpen} 
         onClose={handleCloseModal} 
-        onSubmit={handleAddProduct} 
+        onSubmit={editingProduct ? handleEditProduct : handleAddProduct} 
+        initialValues={editingProduct || { brand: '', title: '', description: '', price: '' }}
       />
     <TableContainer sx={{ mt: 2 }} component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -71,6 +83,7 @@ const BasicTable = () => {
             <TableCell align="center"><Typography variant="h5" gutterBottom>Title</Typography></TableCell>
             <TableCell align="center"><Typography variant="h5" gutterBottom>Description</Typography></TableCell>
             <TableCell align="center"><Typography variant="h5" gutterBottom>Price</Typography></TableCell>
+            <TableCell align="center"><Typography variant="h5" gutterBottom>Action</Typography></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -83,6 +96,9 @@ const BasicTable = () => {
               <TableCell align="center">{product.title}</TableCell>
               <TableCell align="center">{product.description}</TableCell>
               <TableCell align="center">{product.price}</TableCell>
+              <TableCell align="center">
+                <Button variant="outlined" id={product.id} onClick={() => handleOpenModal(product)} >Edit</Button>
+                <Button variant="outlined" id={product.id} startIcon={<DeleteIcon />} color="error" onClick={() => handleDeleteProduct(product.id)}>Delete</Button></TableCell>
             </TableRow>
           ))}
         </TableBody>

@@ -3,7 +3,7 @@ import { Modal, Box, TextField, Button, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-const AddDetails = ({ open, onClose, onSubmit }) => {
+const AddDetails = ({ open, onClose, onSubmit, initialValues }) => {
   // Form validation schema using Yup
   const validationSchema = Yup.object({
     brand: Yup.string().required('Brand is required'),
@@ -14,13 +14,9 @@ const AddDetails = ({ open, onClose, onSubmit }) => {
 
   // Initialize Formik
   const formik = useFormik({
-    initialValues: {
-      brand: '',
-      title: '',
-      description: '',
-      price: '',
-    },
+    initialValues,
     validationSchema: validationSchema,
+    enableReinitialize: true, // This allows formik to reinitialize when initialValues change
     onSubmit: (values, { resetForm }) => {
       onSubmit(values);
       resetForm();
@@ -41,11 +37,12 @@ const AddDetails = ({ open, onClose, onSubmit }) => {
         boxShadow: 24,
         p: 4,
       }}>
-        <Typography variant="h6" gutterBottom>Add New Product</Typography>
+        <Typography variant="h6" gutterBottom>{initialValues.id ? 'Edit Product' : 'Add New Product'}</Typography>
         <form onSubmit={formik.handleSubmit}>
           <TextField
             label="Brand"
             name="brand"
+            value={formik.values.brand}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             fullWidth
@@ -56,6 +53,7 @@ const AddDetails = ({ open, onClose, onSubmit }) => {
           <TextField
             label="Title"
             name="title"
+            value={formik.values.title}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             fullWidth
@@ -66,6 +64,7 @@ const AddDetails = ({ open, onClose, onSubmit }) => {
           <TextField
             label="Description"
             name="description"
+            value={formik.values.description}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             fullWidth
@@ -76,6 +75,7 @@ const AddDetails = ({ open, onClose, onSubmit }) => {
           <TextField
             label="Price"
             name="price"
+            value={formik.values.price}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             fullWidth
