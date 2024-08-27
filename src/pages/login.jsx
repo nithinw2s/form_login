@@ -7,10 +7,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { useNavigate } from "react-router-dom";
-// import { useState } from "react";
 
-
-// DataContext = createContext()
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
@@ -25,12 +22,9 @@ const LoginSchema = Yup.object().shape({
 const theme = createTheme();
 
 const Login = () => {
-  // const[data, setdata] = useState('')
+  
 
-  // const [dataIsLoaded, setDataIsLoaded] = useState(false); 
-  // const [error, setError] = useState(null);
-
-
+  
   const navigate = useNavigate()
   return (
     <ThemeProvider theme={theme}>
@@ -72,18 +66,19 @@ const Login = () => {
                 })
               })
               .then(res => res.json())
-              .then((jdata)=>{
+              .then(async (jdata) => {
                 if (jdata.token) {
                   // Successful login
-                  navigate('/home', { state: { user: jdata } });
-                } //else {
+                  console.log("token:",jdata.token);
+                  navigate('/home');
+                } else {
                   // Handle invalid credentials
-                //   setErrors({
-                //     email: 'Invalid email or password',
-                //     password: 'Invalid email or password',
-                //   });
-                //   console.error('Invalid login credentials: from then part');
-                // }
+                  setErrors({
+                    email: 'Invalid email or password',
+                    password: 'Invalid email or password',
+                  });
+                  console.error('Invalid login credentials: from then part');
+                }
                 setSubmitting(false);
               })
               .catch(error => {

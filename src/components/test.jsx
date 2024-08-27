@@ -1,7 +1,7 @@
 // src/App.js
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { increment, decrement } from '../features/exampleSlice';
+import { increment, decrement } from '../redux_slices/exampleSlice';
 
 function Test() {
   const value = useSelector((state) => state.example.value);

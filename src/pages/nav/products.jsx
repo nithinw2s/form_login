@@ -1,6 +1,6 @@
 import ResponsiveAppBar from "../../components/navbar";
 import { useDispatch } from 'react-redux';
-import { increment, decrement } from "../../features/exampleSlice";
+import { increment, decrement } from "../../redux_slices/exampleSlice";
 
 function Products() {
 

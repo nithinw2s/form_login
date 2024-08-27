@@ -22,7 +22,7 @@ const pages = [
 ];
 
 function ResponsiveAppBar() {
-  const value = useSelector((state)=>state.example.value);
+  // const value = useSelector((state)=>state.example.value);
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -70,7 +70,7 @@ function ResponsiveAppBar() {
             ))}
             
           </Box>
-          <h3>Value: {value}</h3>
+    
 
           <Tooltip title="Open settings">
           
