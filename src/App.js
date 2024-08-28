@@ -6,7 +6,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Products from './pages/nav/products';
 import Blog from './pages/nav/blog';
 import Pricing from './pages/nav/pricing';
-import Test from './components/test';
 
 function App() {
   
@@ -18,8 +17,7 @@ function App() {
     <Route path='/home' element={<Home /> }/>
     <Route path='/products' element={<Products />} />
     <Route path='/pricing' element={<Pricing />} />
-    <Route path='/blog' element={<Blog />} /> 
-    <Route path='/test' element={<Test />} />
+    <Route path='/blog' element={<Blog />} />
    </Routes>
    </BrowserRouter>
   );

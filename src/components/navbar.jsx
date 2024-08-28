@@ -4,16 +4,13 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
 import Home from '@mui/icons-material/Home';
 import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { Padding } from '@mui/icons-material';
+
 
 const pages = [
   { name: 'Products', path: '/products' },
@@ -22,7 +19,7 @@ const pages = [
 ];
 
 function ResponsiveAppBar() {
-  // const value = useSelector((state)=>state.example.value);
+  
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
