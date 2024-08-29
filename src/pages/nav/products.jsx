@@ -1,17 +1,31 @@
+import { useEffect } from "react";
 import ResponsiveAppBar from "../../components/navbar";
-import { useDispatch } from 'react-redux';
-import { increment, decrement } from "../../redux_slices/exampleSlice";
+import Card1 from "../../components/productCard";
+import { fetchCardProducts } from "../../redux_slices/cardPdtSlice";
+import { useDispatch } from "react-redux";
+
+import { useSelector } from "react-redux";
+
 
 function Products() {
 
+    const dispatch = useDispatch()
     
-    const dispatch = useDispatch();
+    useEffect(()=>{
+        dispatch(fetchCardProducts())
+    },[dispatch])
+
+    
+    // const products = useSelector((state) => state.cardproducts.items[0]);
+    // console.log(products)
+  
+
+
     return ( 
         <>
         <ResponsiveAppBar />
-        <button onClick={() => dispatch(increment())}>Increment</button>
-      <button onClick={() => dispatch(decrement())}>Decrement</button>
-        <h1>this is products page</h1>
+        {/* <h1>This is products page</h1> */}
+        <Card1 />
         </> );
 }
 

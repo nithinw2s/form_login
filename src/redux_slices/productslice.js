@@ -6,6 +6,7 @@ export const fetchProducts = createAsyncThunk(
     async () => {
         const response = await fetch('https://dummyjson.com/products');
         const data = await response.json();
+        // console.log("product data fetcher", data)
         return data.products;
     }
 );
@@ -32,6 +33,7 @@ const productSlice = createSlice({
             state.items = state.items.filter(product => product.id !== action.payload);
         },
     },
+
     extraReducers:(builder)=>{
         builder
             .addCase(fetchProducts.pending, (state) => {

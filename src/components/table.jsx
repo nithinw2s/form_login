@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Pagination } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, TablePagination } from '@mui/material';
 import { Button, TextField, Grid} from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
@@ -14,9 +14,8 @@ const BasicTable = () => {
   const [productList, setProductlist] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm,  setSearchitem] = useState('')
-  const [page, setPage] = useState(1); // State for current page
-  const rowsPerPage = 3; // State for rows per page
-
+  const [page, setPage] = useState(0); // State for current page
+  const [rowsPerPage, setRowsPerPage] = useState(5); // State for rows per page
   const products = useSelector((state) => state.products.items);
   
   // console.log("products:", products);
@@ -56,10 +55,14 @@ const BasicTable = () => {
     setSearchitem(event.target.value);
   };
 
-  const handlePageChange = (event, value) => {
-    setPage(value);
-    console.log("value",value);
-  };;
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
 
   const filteredProducts = productList.filter((product) =>
@@ -70,7 +73,7 @@ const BasicTable = () => {
   );
 
   // Paginate the filtered products
-  const paginatedProducts = filteredProducts.slice((page - 1) * rowsPerPage, page * rowsPerPage);
+  const paginatedProducts = filteredProducts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
 
 
@@ -130,20 +133,21 @@ const BasicTable = () => {
               <TableCell align="center">{product.category}</TableCell>
               <TableCell align="center">{product.price}</TableCell>
               <TableCell align="center">
-                <Button variant="outlined" id={product.id} onClick={() => handleOpenModal(product)} >Edit</Button>
-                <Button variant="outlined" id={product.id} startIcon={<DeleteIcon />} color="error" onClick={() => handleDeleteProduct(product.id)}>Delete</Button></TableCell>
+                <Button variant="outlined" id={product.id} sx={{ mr:2 }} onClick={() => handleOpenModal(product)} >Edit</Button>
+                <Button variant="outlined" id={product.id} sx={{ ml:2 }} startIcon={<DeleteIcon />} color="error" onClick={() => handleDeleteProduct(product.id)}>Delete</Button></TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      <Pagination
-        count={Math.ceil(filteredProducts.length / rowsPerPage)} // Total number of pages
-        page={page}
-        onChange={handlePageChange}
-        variant="outlined"
-        shape="rounded"
-        sx={{ mt: 2, display: 'flex', justifyContent: 'center' }} // Centering the pagination
-      />
+      <TablePagination
+          rowsPerPageOptions={[5, 10, 15]} // Options for rows per page
+          component="div"
+          count={filteredProducts.length} // Total count of items
+          rowsPerPage={rowsPerPage} // Current rows per page
+          page={page} // Current page
+          onPageChange={handleChangePage} // Handle page change
+          onRowsPerPageChange={handleChangeRowsPerPage} // Handle rows per page change
+        />
     </TableContainer>
     
     </>

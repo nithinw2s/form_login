@@ -1,25 +1,30 @@
 import './App.css';
-import Register from './pages/register';
-import Login from './pages/login';
-import Home from './pages/home'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Products from './pages/nav/products';
-import Blog from './pages/nav/blog';
-import Pricing from './pages/nav/pricing';
+import React, { Suspense, lazy } from 'react';
+
+// Lazy load the components
+const Register = lazy(() => import('./pages/register'));
+const Login = lazy(() => import('./pages/login'));
+const Home = lazy(() => import('./pages/home'));
+const Products = lazy(() => import('./pages/nav/products'));
+const Blog = lazy(() => import('./pages/nav/blog'));
+const Pricing = lazy(() => import('./pages/nav/pricing'));
 
 function App() {
-  
   return (
-   <BrowserRouter>
-   <Routes>
-    <Route path='/' element={<Register /> }/>
-    <Route path='/login' element={<Login /> }/>
-    <Route path='/home' element={<Home /> }/>
-    <Route path='/products' element={<Products />} />
-    <Route path='/pricing' element={<Pricing />} />
-    <Route path='/blog' element={<Blog />} />
-   </Routes>
-   </BrowserRouter>
+    <BrowserRouter>
+      {/* Suspense provides a fallback UI while the components are loading */}
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path='/register' element={<Register />} />
+          <Route path='/' element={<Login />} />
+          <Route path='/home' element={<Home />} />
+          <Route path='/products' element={<Products />} />
+          <Route path='/pricing' element={<Pricing />} />
+          <Route path='/blog' element={<Blog />} />
+        </Routes>
+      </Suspense>
+    </BrowserRouter>
   );
 }
 

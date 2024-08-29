@@ -8,7 +8,7 @@ const AddDetails = ({ open, onClose, onSubmit, initialValues }) => {
   const validationSchema = Yup.object({
     brand: Yup.string().required('Brand is required'),
     title: Yup.string().required('Title is required'),
-    description: Yup.string().required('Description is required'),
+    category: Yup.string().required('Category is required'),
     price: Yup.string().required('Price is required'),
   });
 
@@ -62,15 +62,15 @@ const AddDetails = ({ open, onClose, onSubmit, initialValues }) => {
             helperText={formik.touched.title && formik.errors.title}
           />
           <TextField
-            label="Description"
-            name="description"
-            value={formik.values.description}
+            label="category"
+            name="category"
+            value={formik.values.category}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             fullWidth
             margin="normal"
-            error={formik.touched.description && Boolean(formik.errors.description)}
-            helperText={formik.touched.description && formik.errors.description}
+            error={formik.touched.category && Boolean(formik.errors.category)}
+            helperText={formik.touched.category && formik.errors.category}
           />
           <TextField
             label="Price"

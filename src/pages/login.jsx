@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Field, ErrorMessage, Form } from "formik";
 import * as Yup from "yup";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Button, Container, Box, TextField, Typography, CssBaseline, Avatar } from "@mui/material";
+import { Button, Container, Box, TextField, Typography, CssBaseline, Avatar, colors } from "@mui/material";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -15,8 +15,9 @@ const LoginSchema = Yup.object().shape({
     .required("Email is required"),
   password: Yup.string()
     .min(3, "Password must be 3 characters at minimum")
-    .required("Password is required"),
+    .required("Password is required"), 
 });
+
 
 
 const theme = createTheme();
@@ -24,6 +25,7 @@ const theme = createTheme();
 const Login = () => {
   
 
+  const [validation, setvalidation] = useState("")
   
   const navigate = useNavigate()
   return (
@@ -73,10 +75,7 @@ const Login = () => {
                   navigate('/home');
                 } else {
                   // Handle invalid credentials
-                  setErrors({
-                    email: 'Invalid email or password',
-                    password: 'Invalid email or password',
-                  });
+                  setvalidation('Invalid credentials')
                   console.error('Invalid login credentials: from then part');
                 }
                 setSubmitting(false);
@@ -122,9 +121,23 @@ const Login = () => {
                     id="password"
                     autoComplete="current-password"
                     error={touched.password && Boolean(errors.password)}
-                    helperText={<ErrorMessage name="password" />}
+                    helperText={
+                      touched.password && errors.password ? (
+                        <ErrorMessage name="password" />
+                      ) : null
+                    }
                   />
                 </div>
+                <Typography
+                  component="p"
+                  variant="body2"
+                  align="right" // Align text to the right
+                  color="red"
+                  sx={{ width: '100%', pr:2, textAlign: 'right' }} // Use sx prop for additional styles
+                >
+                  {validation}
+                </Typography>
+                {/* <Typography component="h5" variant="p" alignContent={'center'} alignItems={"right"} color={"red"} >{validation}</Typography> */}
                 <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
@@ -142,6 +155,7 @@ const Login = () => {
               </Box>
             )}
           </Formik>
+          <a href="http://localhost:3000/register">Click to Register</a>
         </Box>
       </Container>
     </ThemeProvider>
