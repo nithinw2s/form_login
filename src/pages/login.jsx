@@ -7,6 +7,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToken } from "../redux_slices/tocken";
 
 
 const LoginSchema = Yup.object().shape({
@@ -25,6 +27,7 @@ const theme = createTheme();
 const Login = () => {
   
 
+  const dispatch = useDispatch();
   const [validation, setvalidation] = useState("")
   
   const navigate = useNavigate()
@@ -72,6 +75,8 @@ const Login = () => {
                 if (jdata.token) {
                   // Successful login
                   console.log("token:",jdata.token);
+                  dispatch(addToken(jdata.token))
+                  localStorage.setItem('authToken', jdata.token);
                   navigate('/home');
                 } else {
                   // Handle invalid credentials

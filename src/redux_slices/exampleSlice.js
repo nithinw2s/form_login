@@ -4,7 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const exampleSlice = createSlice({
   name: 'example',
   initialState: {
-    value: 0,
+    user:null,
   },
   reducers: {
     increment: (state) => {
